@@ -17,6 +17,11 @@
   var GRAPH = "https://graph.facebook.com/" + CFG.GRAPH_VERSION;
   var DIALOG = "https://www.facebook.com/" + CFG.GRAPH_VERSION + "/dialog/oauth";
   var DEMO = new URLSearchParams(window.location.search).has("demo");
+  // Optional ?only=<ad account or Page ID>,... limits every list to those IDs, so a screen
+  // recording shows one business only. Display filter only: it changes nothing at Meta.
+  var ONLY = (new URLSearchParams(window.location.search).get("only") || "").split(",")
+    .map(function (v) { return v.trim().replace(/^act_/, ""); }).filter(function (v) { return /^\d+$/.test(v); });
+  function allowed(id) { return !ONLY.length || ONLY.indexOf(String(id)) >= 0; }
   var LOGIN_TIMEOUT_MS = 10 * 60 * 1000;
   var IG_METRICS = ["reach", "profile_views", "accounts_engaged", "total_interactions", "website_clicks"];
   var ROUND_ONE = ["public_profile", "ads_read", "ads_management", "pages_show_list", "pages_read_engagement",
@@ -34,6 +39,10 @@
   // ---------- naming ----------
   document.querySelectorAll("[data-product-name]").forEach(function (n) { n.textContent = CFG.PRODUCT_NAME; });
   document.querySelectorAll("[data-app-name]").forEach(function (n) { n.textContent = CFG.APP_NAME; });
+  if (ONLY.length) {
+    $("login-status").insertAdjacentElement("afterend", el("p", { class: "status" },
+      "Recording view: only the ad account and Page IDs in this page’s address are shown (" + ONLY.join(", ") + "). This only filters the display."));
+  }
   document.title = CFG.PRODUCT_NAME + " reviewer console";
   if (DEMO) $("demo-banner").classList.remove("hidden");
 
@@ -343,7 +352,7 @@
   function loadAccounts() {
     setStatus("ads-status", "Loading ad accounts…");
     collect("/me/adaccounts", { fields: "id,account_id,name,currency,account_status" }, 3).then(function (list) {
-      accounts = list.filter(function (a) { return /^\d+$/.test(String(a.account_id || "")); });
+      accounts = list.filter(function (a) { return /^\d+$/.test(String(a.account_id || "")) && allowed(a.account_id); });
       var sel = $("account-select");
       sel.replaceChildren();
       accounts.forEach(function (a) {
@@ -392,6 +401,7 @@
   function loadPages() {
     setStatus("pages-status", "Loading Pages…");
     collect("/me/accounts", { fields: "id,name,category,fan_count,followers_count,instagram_business_account{id,username}" }, 3).then(function (pages) {
+      pages = pages.filter(function (p) { return allowed(p.id); });
       igAccounts = [];
       fillTable($("pages-table"), ["Page", "ID", "Category", "Likes", "Followers", "Linked Instagram account"], pages.map(function (p) {
         var ig = p.instagram_business_account;
