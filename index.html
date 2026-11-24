@@ -3,19 +3,46 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jai Ads Desk</title>
-<meta name="description" content="Jai Ads Desk is a personal tool Jai Wadhwa uses to operate the Meta ad accounts he manages for clients.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>adsdesk</title>
+<meta name="description" content="adsdesk: open-source software to read and manage your Meta ads and Instagram from your own computer, with an approval step before every change.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav><a href="./">Home</a><a href="privacy.html">Privacy policy</a><a href="data-deletion.html">Data deletion</a></nav>
-<h1>Jai Ads Desk</h1>
-<p>Jai Ads Desk is a personal tool run by Jai Wadhwa, an individual freelancer. Jai uses it on his own computer to operate the Meta (Facebook and Instagram) ad accounts he manages for his clients, with the access those clients have given him in Meta.</p>
-<p>It is not a public service: there is nothing to sign up for, and other people do not log in to it.</p>
+<header class="site"><div class="wrap">
+  <a class="brand" href="./" aria-current="page">adsdesk</a>
+  <nav><a href="./" aria-current="page">Home</a><a href="privacy.html">Privacy policy</a><a href="data-deletion.html">Data deletion</a><a href="console/">Reviewer console</a></nav>
+</div></header>
+<main class="wrap">
+<h1>adsdesk</h1>
+<p class="meta">Your Meta ads and Instagram, from your own computer.</p>
+
+<p>adsdesk is free, open-source software (MIT licence) for people who run Meta ads. It is a command-line tool, plus an MCP server so you can use it from an AI assistant you choose. It runs entirely on your computer.</p>
+
 <ul>
-<li><a href="privacy.html">Privacy policy</a></li>
-<li><a href="data-deletion.html">How to delete your data</a></li>
+  <li><strong>Read:</strong> ad accounts, campaigns, ad sets, ads, creatives, performance reports, billing status, Pages, and Instagram profile, posts and metrics.</li>
+  <li><strong>Change, with your approval:</strong> build campaigns, edit names, budgets and status, add ads, upload media. Every change is shown as an exact plan and runs only after you type its confirmation phrase. New campaigns are created paused.</li>
+  <li><strong>Read-only mode:</strong> start it with <code>--read-only</code> and it refuses every change.</li>
 </ul>
-<p>Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a></p>
+
+<h2>Private by design</h2>
+<ul>
+  <li>Your data goes from Meta to your computer and nowhere else. The publisher receives nothing.</li>
+  <li>Your login token stays in your computer’s keychain.</li>
+  <li>No account to create, no analytics, no tracking.</li>
+</ul>
+<p>Read the <a href="privacy.html">privacy policy</a> and <a href="data-deletion.html">how to delete your data</a>.</p>
+
+<h2>Get it</h2>
+<p>adsdesk is in pre-release. Its source code and install instructions will be published at github.com/jaiw1/adsdesk; that page is not live yet. Until then, Meta app reviewers can use the reviewer console below.</p>
+
+<h2>For Meta app reviewers</h2>
+<p>The <a href="console/">reviewer console</a> lets you try the same features in your browser, with nothing to install.</p>
+
+<h2>Who makes it</h2>
+<p>adsdesk is published by Jai Wadhwa, a sole proprietor in India. It connects to Meta through the Meta app “Jai Ads Manager” (app ID 1423255306634410). adsdesk is not made or endorsed by Meta. Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a>.</p>
+</main>
+<footer class="site"><div class="wrap">adsdesk · <a href="privacy.html">Privacy policy</a> · <a href="data-deletion.html">Data deletion</a> · Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a></div></footer>
 </body>
 </html>

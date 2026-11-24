@@ -3,45 +3,123 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Privacy policy · Jai Ads Desk</title>
-<meta name="description" content="Privacy policy for Jai Ads Desk, a personal tool for operating Meta ad accounts.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Privacy policy · adsdesk</title>
+<meta name="description" content="Privacy policy for adsdesk, open-source software for Meta ads and Instagram that runs on your own computer, and its Meta app Jai Ads Manager.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav><a href="./">Home</a><a href="privacy.html">Privacy policy</a><a href="data-deletion.html">Data deletion</a></nav>
+<header class="site"><div class="wrap">
+  <a class="brand" href="./">adsdesk</a>
+  <nav><a href="./">Home</a><a href="privacy.html" aria-current="page">Privacy policy</a><a href="data-deletion.html">Data deletion</a><a href="console/">Reviewer console</a></nav>
+</div></header>
+<main class="wrap">
 <h1>Privacy policy</h1>
-<p class="meta">Jai Ads Desk · Last updated 5 November 2026</p>
+<!-- EFFECTIVE DATE: set to the day this page is published. -->
+<p class="meta">adsdesk and the Meta app “Jai Ads Manager” · Effective 24 November 2026</p>
 
-<h2>Who runs it</h2>
-<p>Jai Ads Desk is operated by Jai Wadhwa, an individual (not a company). Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a>.</p>
-
-<h2>What it is</h2>
-<p>A personal tool Jai uses on his own computer to operate the Meta ad accounts he manages for his clients. It connects to Meta's Marketing API only with access that the account owners have granted to Jai in Meta. It is not a public service and nobody else signs in to it.</p>
-
-<h2>What information it handles</h2>
+<div class="box">
+<p><strong>The short version</strong></p>
 <ul>
-<li>The access token Meta issues when Jai signs in with Facebook, his Meta user ID and the permissions Meta reports as granted.</li>
-<li>Information about the ad accounts, Facebook Pages and Instagram accounts Jai has been given access to: account names and IDs, campaigns, ad sets, ads, creatives, budgets, targeting settings, performance figures and billing status.</li>
-<li>Media and ad copy that Jai uploads to those ad accounts for his clients.</li>
+  <li>adsdesk is open-source software that <strong>you</strong> install and run on <strong>your</strong> computer.</li>
+  <li>Your Meta data goes from Meta to your device and nowhere else. Jai Wadhwa, who publishes adsdesk, receives none of it.</li>
+  <li>Your login token is stored on your device, in your operating system’s keychain.</li>
+  <li>A small login relay sees only a one-time login code on its way back to your computer. That code is useless on its own, and the relay stores nothing.</li>
+  <li>There are no accounts to create, no analytics, no tracking, no ads, and nothing is sold.</li>
 </ul>
-<p>It does not ask for or store anyone's Facebook password, and it does not collect information from people who see the ads.</p>
+</div>
 
-<h2>How it is used</h2>
-<p>Only to view and manage the ad accounts Jai works on: reading account data, preparing changes, and making changes that Jai has reviewed and approved.</p>
+<h2>1. Who we are</h2>
+<p>adsdesk is published by <strong>Jai Wadhwa</strong>, a sole proprietor in India whose business is verified by Meta (“Jai”, “we”). adsdesk connects to Meta through the Meta app <strong>“Jai Ads Manager”</strong> (Meta app ID 1423255306634410), which Jai owns. When you log in, Meta’s login dialog shows that app name.</p>
+<p>Contact for anything in this policy, including privacy requests and grievances: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a>.</p>
+<p>Jai is the developer of the Meta app and is responsible to Meta for how the app handles data from Meta’s platform. adsdesk is built so that this data stays on your device and never reaches Jai.</p>
 
-<h2>Where it is stored</h2>
-<p>On Jai's own Mac. Access tokens and the app secret are kept in the macOS Keychain. Account IDs and a log of the changes made are kept in private local files readable only by Jai's user account. There is no separate server or cloud database for this tool. Requests go directly to Meta over HTTPS.</p>
+<h2>2. What adsdesk is</h2>
+<p>adsdesk is a command-line tool and an MCP server (a way to connect the tool to an AI assistant of your choice). It runs on your computer and talks directly to Meta’s Marketing API, Pages API and Instagram API, using the access you grant when you log in with Facebook Login for Business. The source code will be published at github.com/jaiw1/adsdesk (not live yet).</p>
+<p>There is also a browser-based <a href="console/">reviewer console</a>, a demo page that lets Meta’s app reviewers try the same features without installing anything. Section 6 covers it.</p>
 
-<h2>Sharing</h2>
-<p>No data is sold, rented or shared with anyone else. Information is sent only to Meta, as part of using Meta's API. Jai may discuss an account's results with the business that owns that account.</p>
+<h2>3. What data adsdesk accesses, and why</h2>
+<p>adsdesk only reads or changes data in the ad accounts, Facebook Pages and Instagram accounts that you choose to share in Meta’s login dialog. It asks Meta for these permissions:</p>
+<div class="table-scroll"><table>
+<thead><tr><th>Permission</th><th>What it lets adsdesk do</th><th>Why</th></tr></thead>
+<tbody>
+<tr><td><code>public_profile</code></td><td>Read your name and Meta user ID.</td><td>To show which account is logged in.</td></tr>
+<tr><td><code>ads_read</code></td><td>Read your ad accounts, campaigns, ad sets, ads, creatives, budgets, performance figures (insights) and billing status.</td><td>To show you reports on your own ads.</td></tr>
+<tr><td><code>ads_management</code></td><td>Create and change campaigns, ad sets, ads and creatives, and upload images and videos to your ad account.</td><td>To make changes <em>you</em> ask for. Every change is shown to you as an exact plan first and runs only after you confirm it. New campaigns are created paused, so they do not spend money until you turn them on.</td></tr>
+<tr><td><code>pages_show_list</code></td><td>List the Facebook Pages you manage.</td><td>To link each ad account to its Page and Instagram account.</td></tr>
+<tr><td><code>pages_read_engagement</code></td><td>Read your Pages’ details, posts and linked Instagram account.</td><td>To find the Instagram account linked to a Page, and to show your Page’s posts.</td></tr>
+<tr><td><code>instagram_basic</code></td><td>Read your Instagram professional account’s profile (username, followers, media count) and recent posts.</td><td>To show your Instagram account and posts.</td></tr>
+<tr><td><code>instagram_manage_insights</code></td><td>Read your Instagram account’s metrics (reach, profile views, accounts engaged, follows, website clicks).</td><td>To show you reports on your Instagram account.</td></tr>
+</tbody></table></div>
+<p>adsdesk never asks for or sees your Facebook password. It does not collect information about the people who see your ads, and it does not build profiles of anyone.</p>
+<p>Some commands in the code (Instagram comments and direct messages) need permissions that this app has not been approved for. Those commands stop with a “not available yet” message. If the app is later approved for them, this policy will be updated before they work.</p>
 
-<h2>How long it is kept</h2>
-<p>Only as long as Jai manages the related account. When he stops, or when you ask, the related local records and tokens are deleted.</p>
+<h2>4. Where your data goes and where it is stored</h2>
+<ul>
+  <li><strong>From Meta to your device only.</strong> Every request goes from your computer straight to Meta (<code>graph.facebook.com</code>) over encrypted HTTPS.</li>
+  <li><strong>Your login token</strong> is stored in your operating system’s keychain: macOS Keychain, Windows Credential Manager, or the Linux Secret Service. If your computer has no keychain (for example a server with no desktop), adsdesk warns you and stores it in a file that only your user account can read.</li>
+  <li><strong>Local files.</strong> The account list (IDs and the short names you give them), the change plans you review, a log of the changes you approved, and optional Instagram follower snapshots are saved in private files in your user folders. They never leave your device.</li>
+  <li><strong>Jai receives nothing.</strong> There is no adsdesk account, server-side database, analytics, crash reporting, telemetry or update check that sends anything to Jai.</li>
+</ul>
+<p>The token is never printed on screen, written to logs or included in command output.</p>
 
-<h2>Your choices</h2>
-<p>You can remove Jai Ads Desk's access at any time in Facebook, or ask for deletion by email. See <a href="data-deletion.html">How to delete your data</a>.</p>
+<h2>5. The login relay</h2>
+<p>Meta’s login has to return to a fixed web address, but adsdesk waits for the login on a temporary port on your own computer (<code>127.0.0.1</code>). A small relay connects the two. It runs on Cloudflare Workers, and its whole source code is in the project repository (<code>broker/src/index.js</code>).</p>
+<ul>
+  <li><strong>What it sees:</strong> the one-time authorization code that Meta sends back after you log in, and the <code>state</code> value adsdesk created (the local port number plus a random check value). Like any website, Cloudflare also handles your IP address and browser details to deliver the request.</li>
+  <li><strong>What it does:</strong> it checks the port and immediately redirects your browser to <code>http://127.0.0.1:&lt;port&gt;/callback</code> on your own computer. It never redirects anywhere else.</li>
+  <li><strong>Why the code is useless to it:</strong> adsdesk uses PKCE. Turning the code into a token needs a secret “verifier” that adsdesk creates for that single login and that never leaves your computer. adsdesk then swaps the code for a token directly with Meta. The relay never sees your token, and there is no app secret anywhere.</li>
+  <li><strong>What it keeps:</strong> nothing. It has no database or storage, it writes no logs, and logging and analytics are switched off for it on Cloudflare.</li>
+</ul>
 
-<h2>Changes</h2>
-<p>If this policy changes, the date at the top of this page will change.</p>
+<h2>6. The reviewer console</h2>
+<p>The reviewer console is a static web page for Meta’s app review and for demos. It logs in with the same Meta app, and then your browser talks directly to Meta.</p>
+<ul>
+  <li>The token is kept only in the page’s memory. It is gone when you close or reload the tab. The page does not use cookies, local storage or any other browser storage.</li>
+  <li>The page loads no scripts from other sites and contains no analytics.</li>
+  <li>It is hosted on GitHub Pages. Like any web host, GitHub receives your IP address and browser details when you load the page; see GitHub’s privacy statement.</li>
+  <li>Meta’s login dialog is Meta’s own page, and Meta’s privacy policy applies to it.</li>
+</ul>
+
+<h2>7. AI assistants</h2>
+<p>If you connect adsdesk’s MCP server to an AI assistant (for example Claude, ChatGPT or another MCP client), the data you ask the assistant to fetch is sent to that assistant’s provider, under your own agreement with them. You choose the provider; Jai does not receive that data and is not a party to that arrangement. adsdesk marks text written by other people (ad copy, captions, posts) so that the assistant treats it as data, not as instructions, and changes still need your exact confirmation.</p>
+<p><strong>Jai’s own use.</strong> Jai also uses adsdesk himself for businesses that have given him access to their Meta accounts. For that work he uses Claude, an AI assistant made by Anthropic, which processes the results he asks for. This applies only to those businesses’ accounts, not to yours.</p>
+
+<h2>8. Sharing and selling</h2>
+<p>Jai does not sell, rent, trade or share your data, and does not use it for advertising. Because the software sends him nothing, he has no copy of your Meta data to share or to hand over if asked by an authority.</p>
+<p>Service providers involved: <strong>Cloudflare</strong> (runs the login relay; handles the one-time code in transit only) and <strong>GitHub</strong> (hosts these pages, the reviewer console and the source code). Neither receives your Meta data from adsdesk.</p>
+
+<h2>9. How long data is kept</h2>
+<ul>
+  <li>Data on your device stays there until you delete it (see <a href="data-deletion.html">how to delete your data</a>).</li>
+  <li>Your login keeps working until you log out or remove the app. Meta stops returning data about 90 days after your last login, until you log in again.</li>
+  <li>If you email Jai, he keeps the email only as long as needed to answer it, and deletes it when you ask unless the law requires him to keep it.</li>
+</ul>
+
+<h2>10. Your choices and rights</h2>
+<ul>
+  <li><strong>Revoke access from the tool:</strong> run <code>meta-control auth logout --revoke</code>. This removes the app’s access on Meta and deletes the token from your device.</li>
+  <li><strong>Revoke access in Facebook:</strong> go to Settings &amp; privacy → Settings → Business integrations (or Apps and websites), find “Jai Ads Manager” and choose Remove.</li>
+  <li><strong>Delete local data:</strong> see <a href="data-deletion.html">how to delete your data</a>.</li>
+</ul>
+<p>Under India’s Digital Personal Data Protection Act, 2023, you have the right to ask for information about your personal data, to have it corrected or erased, to nominate someone to act for you, and to have a grievance addressed. Wherever you live, you can make these requests by emailing <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a>. Jai will reply within 30 days. Since Jai does not hold your Meta data, most requests are answered by confirming that and showing you how to delete what is on your own device. If you are not satisfied with the answer, you can complain to the Data Protection Board of India.</p>
+
+<h2>11. Security</h2>
+<p>adsdesk stores tokens in the keychain, uses PKCE so no app secret exists, checks every login with a random <code>state</code> value, talks to Meta only over verified HTTPS, and never prints tokens. Anyone can read the code. To report a security problem, email <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a> (see <code>SECURITY.md</code> in the repository). Programs running as your user on your computer can generally read your keychain entries, so keep your computer secure.</p>
+
+<h2>12. Children</h2>
+<p>adsdesk is a business tool for people managing ads and is not meant for anyone under 18. Jai does not knowingly process personal data of children. If you believe a child has used it, email Jai and he will help remove any data involved.</p>
+
+<h2>13. Changes to this policy</h2>
+<p>If this policy changes, the effective date at the top changes too, and the history is visible in the project repository. If a change affects what data adsdesk accesses, this page is updated before the new version of the software is released.</p>
+
+<h2>14. Governing law</h2>
+<p>This policy is governed by the laws of India, including the Digital Personal Data Protection Act, 2023 and the Information Technology Act, 2000. Courts in Mumbai, Maharashtra have jurisdiction over any dispute about it.</p>
+
+<h2>15. Contact</h2>
+<p>Jai Wadhwa (sole proprietor, India), who also handles grievances · <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a></p>
+</main>
+<footer class="site"><div class="wrap">adsdesk · <a href="privacy.html">Privacy policy</a> · <a href="data-deletion.html">Data deletion</a> · Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a></div></footer>
 </body>
 </html>

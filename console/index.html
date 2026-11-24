@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https://graph.facebook.com; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Reviewer console</title>
+<meta name="description" content="Browser console for Meta app review and demos: log in with Facebook Login for Business and see the same data the command-line tool shows.">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div id="demo-banner" class="demo-banner hidden">Demo mode: invented data for “Acme Foods”. Nothing is sent to Meta. <a href="./">Leave demo mode</a></div>
+<header class="site"><div class="wrap wide">
+  <a class="brand" href="../" data-product-name>adsdesk</a>
+  <nav><a href="../">Home</a><a href="../privacy.html">Privacy policy</a><a href="../data-deletion.html">Data deletion</a><a href="./" aria-current="page">Reviewer console</a></nav>
+</div></header>
+
+<main class="wrap wide">
+  <h1><span data-product-name>adsdesk</span> reviewer console</h1>
+  <div class="box warn">
+    <p><strong>For Meta app review and demos only.</strong> The real product is the <span data-product-name>adsdesk</span> command-line tool and MCP server, which run on your own computer. This page shows the same reads and one safe write, using the same Meta app (“<span data-app-name>Jai Ads Manager</span>”) and the same login.</p>
+    <p><strong>Nothing is stored.</strong> Your login token lives only in this tab’s memory and is gone when you close or reload it. No cookies, no browser storage, no analytics. Your browser talks directly to Meta. <a href="../privacy.html">Privacy policy</a>.</p>
+  </div>
+
+  <!-- 1. Login: public_profile -->
+  <section class="panel" id="login-panel" aria-labelledby="login-h">
+    <h2 id="login-h">1. Log in <span class="perm">public_profile</span></h2>
+    <div id="logged-out">
+      <p>Log in with Facebook Login for Business. In Meta’s dialog, choose the business, ad account, Page and Instagram account you want to share.</p>
+      <div class="row"><button id="login-btn" type="button">Log in with Facebook</button></div>
+    </div>
+    <div id="logged-in" class="hidden">
+      <p>Logged in as <strong id="me-name"></strong> (Meta user ID <code id="me-id"></code>).</p>
+      <p>Permissions granted: <span id="me-perms"></span></p>
+      <div class="row">
+        <button id="logout-btn" type="button" class="secondary">Log out (forget the token)</button>
+        <button id="revoke-btn" type="button" class="secondary">Remove app access on Meta…</button>
+      </div>
+    </div>
+    <p id="login-status" class="status" role="status" aria-live="polite"></p>
+  </section>
+
+  <div id="app" class="hidden">
+    <!-- 2. Ad accounts and insights: ads_read -->
+    <section class="panel" aria-labelledby="ads-h">
+      <h2 id="ads-h">2. Ad accounts and performance <span class="perm">ads_read</span></h2>
+      <div class="row">
+        <label for="account-select">Ad account</label>
+        <select id="account-select"></select>
+        <label for="preset-select">Period</label>
+        <select id="preset-select">
+          <option value="last_7d">Last 7 days</option>
+          <option value="last_30d">Last 30 days</option>
+          <option value="this_month">This month</option>
+        </select>
+        <button id="refresh-ads" type="button" class="secondary">Refresh</button>
+      </div>
+      <div id="account-kpis" class="kpis"></div>
+      <h3>Campaigns</h3>
+      <div class="table-scroll"><table id="campaigns-table"></table></div>
+      <h3>Campaign performance</h3>
+      <div class="table-scroll"><table id="insights-table"></table></div>
+      <p id="ads-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 3. Pages: pages_show_list, pages_read_engagement -->
+    <section class="panel" aria-labelledby="pages-h">
+      <h2 id="pages-h">3. Facebook Pages <span class="perm">pages_show_list · pages_read_engagement</span></h2>
+      <p>The Pages you shared, their audience figures, and the Instagram account linked to each.</p>
+      <div class="table-scroll"><table id="pages-table"></table></div>
+      <p id="pages-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 4. Instagram: instagram_basic, instagram_manage_insights -->
+    <section class="panel" aria-labelledby="ig-h">
+      <h2 id="ig-h">4. Instagram <span class="perm">instagram_basic · instagram_manage_insights</span></h2>
+      <div class="row">
+        <label for="ig-select">Instagram account</label>
+        <select id="ig-select"></select>
+      </div>
+      <div id="ig-profile" class="kpis"></div>
+      <h3>Account insights, last 7 days</h3>
+      <div id="ig-insights" class="kpis"></div>
+      <h3>Recent posts</h3>
+      <div class="table-scroll"><table id="ig-media"></table></div>
+      <p id="ig-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- 5. Safe write: ads_management -->
+    <section class="panel" aria-labelledby="write-h">
+      <h2 id="write-h">5. Create, rename and delete a paused campaign <span class="perm">ads_management</span></h2>
+      <p>This creates one campaign with status <strong>PAUSED</strong> in the selected ad account. It has no ad sets, ads or budget, so it cannot spend money. Each step shows the exact change and needs you to type a confirmation word. This page can only rename or delete a campaign it created in this tab.</p>
+      <div class="row">
+        <label for="new-name">Campaign name</label>
+        <input id="new-name" type="text" maxlength="200" autocomplete="off">
+        <button id="create-btn" type="button">Create paused campaign…</button>
+      </div>
+      <div id="created" class="hidden">
+        <div class="kpis" id="created-kpis"></div>
+        <div class="row">
+          <label for="rename-name">New name</label>
+          <input id="rename-name" type="text" maxlength="200" autocomplete="off">
+          <button id="rename-btn" type="button">Rename…</button>
+          <button id="delete-btn" type="button" class="danger">Delete…</button>
+        </div>
+      </div>
+      <p id="write-status" class="status" role="status" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <dialog id="confirm-dialog" aria-labelledby="confirm-title">
+    <form method="dialog" id="confirm-form">
+      <h2 id="confirm-title">Confirm</h2>
+      <p id="confirm-summary"></p>
+      <div class="table-scroll"><table id="confirm-table"></table></div>
+      <p><label for="confirm-input">Type <strong><code id="confirm-word"></code></strong> to confirm:</label></p>
+      <div class="row"><input id="confirm-input" type="text" autocomplete="off" spellcheck="false"></div>
+      <div class="row">
+        <button id="confirm-ok" type="submit" value="ok" disabled>Confirm</button>
+        <button type="submit" value="cancel" class="secondary">Cancel</button>
+      </div>
+    </form>
+  </dialog>
+</main>
+<footer class="site"><div class="wrap wide"><span data-product-name>adsdesk</span> reviewer console · for review and demo use · <a href="../privacy.html">Privacy policy</a> · <a href="../data-deletion.html">Data deletion</a> · Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a></div></footer>
+<script src="config.js"></script>
+<script src="console.js"></script>
+</body>
+</html>

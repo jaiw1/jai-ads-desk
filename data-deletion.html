@@ -3,27 +3,64 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Data deletion · Jai Ads Desk</title>
-<meta name="description" content="How to remove Jai Ads Desk's access and delete your data.">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<title>Data deletion · adsdesk</title>
+<meta name="description" content="How to remove the Jai Ads Manager app's access and delete the data adsdesk keeps on your own computer.">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<nav><a href="./">Home</a><a href="privacy.html">Privacy policy</a><a href="data-deletion.html">Data deletion</a></nav>
+<header class="site"><div class="wrap">
+  <a class="brand" href="./">adsdesk</a>
+  <nav><a href="./">Home</a><a href="privacy.html">Privacy policy</a><a href="data-deletion.html" aria-current="page">Data deletion</a><a href="console/">Reviewer console</a></nav>
+</div></header>
+<main class="wrap">
 <h1>How to delete your data</h1>
-<p class="meta">Jai Ads Desk · Last updated 5 November 2026</p>
+<!-- EFFECTIVE DATE: keep in step with privacy.html. -->
+<p class="meta">adsdesk and the Meta app “Jai Ads Manager” · Effective 24 November 2026</p>
 
-<h2>1. Remove the app's access in Facebook</h2>
+<div class="box">
+<p>adsdesk keeps your data <strong>only on your own computer</strong>. Jai Wadhwa, who publishes it, does not receive or store your Meta data, so there is nothing on his side to delete. Deleting your data means two things: removing the app’s access in Meta, and deleting the files on your computer.</p>
+</div>
+
+<h2>1. Remove the app’s access</h2>
+<p><strong>Option A: from the tool.</strong> Run:</p>
+<pre><code>meta-control auth logout --revoke</code></pre>
+<p>This asks Meta to remove the app’s access to your account and then deletes the token from your keychain. It affects every device where you use adsdesk with that Facebook account.</p>
+<p><strong>Option B: in Facebook.</strong></p>
 <ol>
-<li>Open Facebook and go to <strong>Settings &amp; privacy → Settings</strong>.</li>
-<li>Open <strong>Apps and websites</strong> (it may be under <em>Your activity</em> or <em>Security</em>).</li>
-<li>Find <strong>Jai Ads Desk</strong> and choose <strong>Remove</strong>.</li>
+  <li>Open Facebook and go to <strong>Settings &amp; privacy → Settings</strong>.</li>
+  <li>Open <strong>Business integrations</strong>. (If “Jai Ads Manager” is not listed there, check <strong>Apps and websites</strong>.)</li>
+  <li>Find <strong>Jai Ads Manager</strong> and choose <strong>Remove</strong>.</li>
 </ol>
-<p>This stops the app from accessing your account through Meta straight away.</p>
+<p>Either way, the app stops being able to reach your accounts through Meta straight away.</p>
 
-<h2>2. Ask for the local records to be deleted</h2>
-<p>Email <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a> with the subject "Delete my data" and say which Facebook account, Page or ad account it concerns. Jai will delete the related tokens and local records from his computer and confirm by email, normally within 30 days.</p>
+<h2>2. Delete the data on your computer</h2>
+<ol>
+  <li>Delete the stored token: <code>meta-control auth logout</code> (add <code>--profile &lt;name&gt;</code> for each extra profile you created). If you used Option A above, this is already done.</li>
+  <li>Delete adsdesk’s folders. They hold your account list, change plans, the log of approved changes and any Instagram follower snapshots:
+    <div class="table-scroll"><table>
+      <thead><tr><th>System</th><th>Folders</th></tr></thead>
+      <tbody>
+        <tr><td>macOS</td><td><code>~/Library/Application Support/meta-control</code><br><code>~/Library/Caches/meta-control</code></td></tr>
+        <tr><td>Linux</td><td><code>~/.config/meta-control</code><br><code>~/.local/share/meta-control</code><br><code>~/.cache/meta-control</code></td></tr>
+        <tr><td>Windows</td><td><code>%LOCALAPPDATA%\meta-control</code></td></tr>
+        <tr><td>Any system, older installs</td><td><code>~/.config/meta-control</code></td></tr>
+      </tbody>
+    </table></div>
+    If you set <code>META_CONTROL_CONFIG_DIR</code>, <code>META_CONTROL_DATA_DIR</code> or <code>META_CONTROL_CACHE_DIR</code>, delete those folders instead.
+  </li>
+  <li>Uninstall the software if you like: <code>pipx uninstall meta-control-readonly</code> or <code>uv tool uninstall meta-control-readonly</code>.</li>
+</ol>
+<p><strong>Reviewer console:</strong> it keeps the token only in the page’s memory and stores nothing in your browser. Closing the tab deletes it.</p>
+<p><strong>AI assistants:</strong> if you connected adsdesk to an AI assistant, anything you asked it to fetch is held by that assistant’s provider. Use that provider’s own deletion settings.</p>
 
-<h2>What is not deleted this way</h2>
-<p>Ads, campaigns and other objects inside a Meta ad account belong to that ad account and are kept by Meta. The account owner can remove them in Meta Ads Manager.</p>
+<h2>3. Ask Jai to confirm</h2>
+<p>You can email <a href="mailto:jai.w8a@gmail.com?subject=Delete%20my%20data">jai.w8a@gmail.com</a> with the subject “Delete my data”. Jai will reply in writing within 30 days to confirm that he holds no Meta data about you, and will delete your email correspondence if you ask.</p>
+
+<h2>What this does not delete</h2>
+<p>Campaigns, ads, creatives and uploaded media that you created in your ad account belong to that ad account and are kept by Meta. You can delete them in Meta Ads Manager. Data that Meta itself holds about you is covered by Meta’s own policies and tools.</p>
+</main>
+<footer class="site"><div class="wrap">adsdesk · <a href="privacy.html">Privacy policy</a> · <a href="data-deletion.html">Data deletion</a> · Contact: <a href="mailto:jai.w8a@gmail.com">jai.w8a@gmail.com</a></div></footer>
 </body>
 </html>
